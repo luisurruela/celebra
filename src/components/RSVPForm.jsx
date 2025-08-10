@@ -7,7 +7,6 @@ export default function RSVPForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí iría la lógica para enviar los datos al backend
     console.log(`Confirmación recibida: ${nombre}, ${asistentes} asistentes`);
     setEnviado(true);
   };
