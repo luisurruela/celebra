@@ -50,7 +50,7 @@ const pageDescription = `Invitación a la boda de ${datosInvitacion.subtitle}.`;
   <section id="confirmacion" class="bg-gray-200 py-16">
     <div class="container mx-auto px-4 text-center">
       <h2 class="text-4xl font-playfair mb-8">Confirma tu Asistencia</h2>
-      <RSVPForm client:load />
+      <RSVPForm client:only="react" />
     </div>
   </section>
 </Layout>

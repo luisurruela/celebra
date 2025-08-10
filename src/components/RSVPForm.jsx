@@ -1,17 +1,34 @@
 import { useState } from "react";
 
 export default function RSVPForm() {
-  const [nombre, setNombre] = useState("");
-  const [asistentes, setAsistentes] = useState(1);
-  const [enviado, setEnviado] = useState(false);
+  const [name, setName] = useState("");
+  const [guests, setGuests] = useState(1);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Confirmación recibida: ${nombre}, ${asistentes} asistentes`);
-    setEnviado(true);
+    try {
+      const response = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, guests }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al enviar la confirmación');
+      }
+
+      setSent(true);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  if (enviado) {
+  if (sent) {
     return (
       <div
         className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
@@ -29,18 +46,19 @@ export default function RSVPForm() {
       onSubmit={handleSubmit}
       className="p-6 bg-white rounded-lg shadow-md max-w-sm mx-auto"
     >
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="mb-4">
         <label
-          htmlFor="nombre"
+          htmlFor="name"
           className="block text-gray-700 text-sm font-bold mb-2"
         >
-          Tu nombre:
+          Tu name:
         </label>
         <input
           type="text"
-          id="nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           required
         />
@@ -55,8 +73,8 @@ export default function RSVPForm() {
         <input
           type="number"
           id="asistentes"
-          value={asistentes}
-          onChange={(e) => setAsistentes(e.target.value)}
+          value={guests}
+          onChange={(e) => setGuests(e.target.value)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           min="1"
           required
