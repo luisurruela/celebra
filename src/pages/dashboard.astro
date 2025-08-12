@@ -1,0 +1,8 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AdminDashboard from "../components/Dashboard";
+---
+
+<Layout title="Dashboard | Celebra" description='Celebra is a platform for creating and sharing interactive stories.'>
+  <AdminDashboard client:only="react" />
+</Layout>
