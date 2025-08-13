@@ -1,5 +1,5 @@
 {
-  "name": "celebra",
+  "name": "celebra-app",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -24,13 +24,17 @@
     "@angular/common": "^20.1.0-next.0",
     "@angular/compiler": "^20.1.0-next.0",
     "@angular/core": "^20.1.0-next.0",
+    "@angular/fire": "^20.0.1",
     "@angular/forms": "^20.1.0-next.0",
     "@angular/platform-browser": "^20.1.0-next.0",
     "@angular/platform-server": "^20.1.0-next.0",
     "@angular/router": "^20.1.0-next.0",
     "@angular/ssr": "^20.1.0-rc.0",
+    "@tailwindcss/postcss": "^4.1.11",
     "express": "^5.1.0",
+    "postcss": "^8.5.6",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^4.1.11",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

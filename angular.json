@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Celebra": {
+    "celebra-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -63,10 +63,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Celebra:build:production"
+              "buildTarget": "celebra-app:build:production"
             },
             "development": {
-              "buildTarget": "Celebra:build:development"
+              "buildTarget": "celebra-app:build:development"
             }
           },
           "defaultConfiguration": "development"
