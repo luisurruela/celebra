@@ -27,9 +27,9 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
     try {
       await signInWithEmailAndPassword(this.auth, email, password);
-      // Redirige al dashboard después de un inicio de sesión exitoso.
+      // Redirige al panel después de un inicio de sesión exitoso.
       this.ngZone.run(() => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/panel']);
       });
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
@@ -47,9 +47,9 @@ export class AuthService {
   async register(email: string, password: string): Promise<void> {
     try {
       await createUserWithEmailAndPassword(this.auth, email, password);
-      // Redirige al dashboard después de un registro exitoso.
+      // Redirige al panel después de un registro exitoso.
       this.ngZone.run(() => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/panel']);
       });
     } catch (error) {
       console.error("Error al registrarse:", error);
@@ -66,7 +66,7 @@ export class AuthService {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       this.ngZone.run(() => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/panel']);
       });
       return result;
     } catch (error) {

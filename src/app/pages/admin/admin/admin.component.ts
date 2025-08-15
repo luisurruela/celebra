@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
+  isSidebarOpen = true;
+
   constructor() { }
 
   ngOnInit() {
+    if (window.innerWidth < 768) {
+      this.isSidebarOpen = false;
+    }
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 
 }
