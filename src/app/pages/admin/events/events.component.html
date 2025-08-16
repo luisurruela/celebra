@@ -1,1 +1,5 @@
-Events
+<div class="grid grid-cols-4 gap-4">
+    @for (event of events$ | async; track $index) {
+        <app-event [event]="event" />
+    }
+</div>
