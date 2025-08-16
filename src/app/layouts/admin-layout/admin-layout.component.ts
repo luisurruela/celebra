@@ -1,40 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { AdminSidebarComponent } from './components/admin-sidebar/admin-sidebar.component';
+import { AdminHeaderComponent } from './components/admin-header/admin-header.component';
+import { AdminMenuService } from '../../services/admin-menu.service';
+import { MenuItem } from './types/menu-item';
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, AdminHeaderComponent, AdminSidebarComponent],
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.css']
 })
 export class AdminLayoutComponent implements OnInit {
 
   showSidebar = true;
-  isMobile = false;
+  
+  menuItems: MenuItem[] = [];
 
-  constructor() { }
+  constructor(private adminMenuService: AdminMenuService) { }
 
   ngOnInit() {
-    this.checkScreenWidth();
+    this.menuItems = this.adminMenuService.menuItems;
   }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.checkScreenWidth();
-  }
-
-  checkScreenWidth() {
-    this.isMobile = window.innerWidth < 768;
-    if (this.isMobile) {
-      this.showSidebar = false;
-    } else {
-      this.showSidebar = true;
-    }
-  }
-
-  toggleSidebar() {
-    this.showSidebar = !this.showSidebar;
-  }
-
 }

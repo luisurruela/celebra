@@ -1,0 +1,17 @@
+<aside class="bg-gray-200 min-h-screen flex-col gap-4 transform transition-all duration-500 z-40 overflow-hidden" 
+  [ngClass]="{
+    'fixed h-screen': isMobile,
+    'relative': !isMobile,
+    'w-64': showSidebar,
+    'w-0': !showSidebar && !isMobile,
+    '-translate-x-full': !showSidebar && isMobile
+  }">
+  
+  <ul class="p-5">
+    @for (item of menuItems; track $index) {
+    <li class="whitespace-nowrap py-2">
+      <a [routerLink]="item.route" routerLinkActive="router-link-active">{{ item.name }}</a>
+    </li>
+    }
+  </ul>
+</aside>
