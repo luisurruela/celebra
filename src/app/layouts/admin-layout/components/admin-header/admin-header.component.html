@@ -1,13 +1,28 @@
 <header>
   <nav class="h-18 bg-purple-500 text-white flex items-center px-2 md:px-5 justify-between">
+
     <div class="flex items-center gap-2">
       <span class="material-icons cursor-pointer" (click)="handleToggleSidebar()">menu</span>
       <div class="text-3xl font-black">Celebra</div>
     </div>
-    <div class="flex gap-2 md:gap-4 items-center">
+
+    <!-- Contenedor del perfil de usuario y del menú. Se usa 'relative' para posicionar el menú. -->
+    <div class="relative flex gap-2 md:gap-4 items-center cursor-pointer" (click)="showAccountMenu = !showAccountMenu" (appClickOutside)="showAccountMenu = false">
       <p>Hola, Luis Urruela</p>
       <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-purple-500">LU
       </div>
+
+      <!-- El menú ahora está posicionado de manera 'absolute' con respecto a su padre 'relative'. -->
+      @if (showAccountMenu) {
+      <div class="absolute top-full right-0 mt-3">
+        <ul class="py-3 px-5 bg-white rounded-lg shadow-lg w-64">
+          <li class="border-b border-gray-100 py-3 cursor-pointer text-gray-800 hover:bg-gray-100 px-2 rounded flex items-center gap-2"><span class="material-icons">person</span>Mi perfil</li>
+          <li class="py-3 cursor-pointer text-gray-800 hover:bg-gray-100 px-2 rounded flex items-center gap-2" (click)="logout()">
+            <span class="material-icons">logout</span>Cerrar Sesión</li>
+        </ul>
+      </div>
+      }
     </div>
+
   </nav>
 </header>
