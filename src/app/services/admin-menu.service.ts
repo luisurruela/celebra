@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 
+import { MenuItem } from '../layouts/admin-layout/types/menu-item';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AdminMenuService {
 
-  menuItems = [
+  menuItems: MenuItem[] = [
     {
       name: 'Mis eventos',
-      route: '/panel'
+      route: '/panel',
+      icon: 'event'
     }
   ];
+  
   constructor() { }
 
 }

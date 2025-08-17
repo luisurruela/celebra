@@ -9,8 +9,9 @@
   
   <ul class="p-5">
     @for (item of menuItems; track $index) {
-    <li class="whitespace-nowrap py-2">
-      <a [routerLink]="item.route" routerLinkActive="router-link-active">{{ item.name }}</a>
+    <li class="whitespace-nowrap py-3 border-b border-gray-300">
+      <a [routerLink]="item.route" routerLinkActive="router-link-active" class="flex items-center gap-2 text-gray-700">
+        <span class="material-icons">{{ item.icon}}</span> {{ item.name }}</a>
     </li>
     }
   </ul>

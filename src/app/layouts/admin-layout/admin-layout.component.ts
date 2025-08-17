@@ -16,7 +16,6 @@ import { MenuItem } from './types/menu-item';
 export class AdminLayoutComponent implements OnInit {
 
   showSidebar = true;
-  
   menuItems: MenuItem[] = [];
 
   constructor(private adminMenuService: AdminMenuService) { }
