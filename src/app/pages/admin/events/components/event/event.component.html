@@ -1,4 +1,19 @@
-<div class="h-38 w-full rounded-3xl overflow-hidden shadow-sm flex flex-col justify-center items-center cursor-pointer bg-gray-50">
+<div class="relative h-38 w-full rounded-3xl overflow-hidden shadow-sm flex flex-col justify-center items-center bg-gray-50">
+  <div class="absolute top-0 right-0 py-3 px-2">
+    <!-- Ícono del menú -->
+    <button (click)="toggleMenu($event)" class="text-gray-500 hover:text-gray-700 transition-colors duration-200 cursor-pointer" (appClickOutside)="this.isMenuOpen = false" type="button">
+      <span class="material-icons">more_vert</span>
+    </button>
+    
+     @if (isMenuOpen) {
+       <div class="absolute right-0 w-30 bg-white rounded-md shadow-lg py-1 z-10">
+         <a (click)="deleteEvent()" class="px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer flex items-center gap-1">
+          <span class="material-icons">delete</span>Borrar
+        </a>
+       </div>
+     }
+  </div>
+
   <h3 class="uppercase font-thin text-lg md:text-2xl mb-1">{{ event.template === 'boda' ? event.nombresNovios : event.nombreFestejado }}</h3>
 
   <div class="flex my-3">

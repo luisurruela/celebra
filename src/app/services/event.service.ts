@@ -1,6 +1,6 @@
 import { collection, collectionData, deleteDoc, doc, Firestore, getDoc, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Auth, user, User } from '@angular/fire/auth';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
 
