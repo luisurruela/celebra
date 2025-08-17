@@ -1,0 +1,67 @@
+<div class="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
+  <div class="w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+    <h1 class="text-4xl font-playfair font-bold text-center text-gray-800 mb-8">Crear Nuevo Evento</h1>
+
+    <!-- Sección de selección de plantilla centrada verticalmente -->
+    <!-- Se muestra si no se ha seleccionado ninguna plantilla -->
+    @if (!selectedTemplate) {
+    <div class="flex flex-col justify-center items-center h-full">
+      <h2 class="text-2xl font-montserrat font-semibold text-gray-700 mb-4 text-center">
+        Paso 1: Elige una plantilla
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6 w-full max-w-sm">
+        <button (click)="onTemplateSelect('boda')"
+          class="bg-purple-100 hover:bg-purple-200 text-purple-600 font-bold py-6 px-4 rounded-lg shadow-md transition-colors duration-200 cursor-pointer">
+          <span class="block text-xl font-playfair">Boda</span>
+        </button>
+        <button (click)="onTemplateSelect('cumpleanios')"
+          class="bg-purple-100 hover:bg-purple-200 text-purple-600 font-bold py-6 px-4 rounded-lg shadow-md transition-colors duration-200 cursor-pointer">
+          <span class="block text-xl font-playfair">Cumpleaños</span>
+        </button>
+      </div>
+    </div>
+    }
+
+    <!-- Formulario dinámico -->
+    <!-- Se muestra una vez que la plantilla ha sido seleccionada -->
+    @if (selectedTemplate) {
+    <form [formGroup]="newEventForm" (ngSubmit)="onSubmit()">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-montserrat font-semibold text-gray-700">
+          Paso 2: Detalles del evento ({{ selectedTemplate === 'boda' ? 'Boda' : 'Cumpleaños' }})
+        </h2>
+        <button type="button" (click)="onTemplateSelect(null)" class="text-purple-600 hover:underline">
+          Cambiar plantilla
+        </button>
+      </div>
+
+      <!-- Controles del formulario generados dinámicamente -->
+      <div class="grid md:grid-cols-2 gap-6" formGroupName="details">
+        @for (field of currentTemplateFields; track $index) {
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2 font-montserrat" [for]="field.name">
+            {{ field.label }}
+          </label>
+          <input [formControlName]="field.name" [type]="field.type" [id]="field.name"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
+          <!-- Mensaje de error si el campo es inválido y ha sido tocado -->
+          @if (newEventForm.get('details')?.get(field.name)?.invalid &&
+          newEventForm.get('details')?.get(field.name)?.touched) {
+          <div class="text-red-500 text-xs mt-1">Este campo es requerido.</div>
+          }
+        </div>
+        } @empty {
+        <div class="col-span-2 text-center text-gray-500 font-montserrat">
+          No hay campos de formulario definidos para esta plantilla.
+        </div>
+        }
+      </div>
+
+      <button type="submit" [disabled]="loading"
+        class="mt-8 font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform {{ loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700' }} text-white font-montserrat cursor-pointer disabled:opacity-50" [disabled]="newEventForm.invalid">
+        {{ loading ? "Guardando..." : "Guardar Evento" }}
+      </button>
+    </form>
+    }
+  </div>
+</div>

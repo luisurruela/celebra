@@ -4,7 +4,8 @@ export interface Event {
   id?: string;
   lugarCeremonia: string;
   lugarRecepcion: string;
-  nombresNovios: string;
+  nombresNovios?: string;
+  nombreFestejado?: string;
   status: string;
   template: string;
 }

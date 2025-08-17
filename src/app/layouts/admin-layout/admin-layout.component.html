@@ -8,7 +8,7 @@
     <app-admin-sidebar [showSidebar]="showSidebar" [menuItems]="menuItems"></app-admin-sidebar>
 
     <!-- Contenido principal -->
-    <main class="flex-1 py-5 px-5 md:px-10 bg-gray-100 overflow-y-auto">
+    <main class="flex-1 py-5 px-5 md:px-10 bg-gray-100 overflow-y-auto min-h-full">
       <section>
         <router-outlet></router-outlet>      
       </section>
@@ -16,8 +16,8 @@
   </div>
   
   <button
-    class="rounded-full w-14 h-14 bg-purple-500 text-white flex items-center justify-center fixed bottom-8 right-8 cursor-pointer shadow-sm">
-    <span class="material-icons text-lg">add</span>
+    class="rounded-full w-14 h-14 bg-purple-500 text-white flex items-center justify-center fixed bottom-8 right-8 cursor-pointer shadow-md shadow-gray-500 hover:scale-110 transition-all duration-300 ease-initial" [routerLink]="['/panel/nuevo-evento']">
+    <span class="material-icons">add</span>
   </button>
 
 </div>

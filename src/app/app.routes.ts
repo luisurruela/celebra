@@ -5,6 +5,7 @@ import { Routes } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NotFoundComponent } from './pages/notFound/notFound/notFound.component';
+import { NewEventComponent } from './pages/admin/new-event/new-event.component';
 import { EventsComponent } from './pages/admin/events/events.component';
 import { HomeComponent } from './pages/home/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -26,6 +27,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard], // Usa AuthGuard para las rutas protegidas
         children: [
             { path: '', component: EventsComponent, title: 'Celebra - Panel de Administración' },
+            { path: 'nuevo-evento', component: NewEventComponent, title: 'Celebra - Panel de Administración' },
         ],
         title: 'Celebra - Panel de Administración',
     },
