@@ -1,8 +1,8 @@
-<aside class="bg-gray-200 min-h-screen flex-col gap-4 transform transition-all duration-500 z-40 overflow-hidden" 
+<aside class="bg-gray-200 min-h-full flex-col gap-4 transform transition-all duration-500 z-40 overflow-hidden" 
   [ngClass]="{
     'fixed h-screen': isMobile,
     'relative': !isMobile,
-    'w-64': showSidebar,
+    'w-55': showSidebar,
     'w-0': !showSidebar && !isMobile,
     '-translate-x-full': !showSidebar && isMobile
   }">

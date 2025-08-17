@@ -1,3 +1,4 @@
+import { RouterLink } from '@angular/router';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { ClickOutsideDirective } from '../../../../directives/click-outside.directive';
@@ -5,7 +6,7 @@ import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-admin-header',
-  imports: [ClickOutsideDirective],
+  imports: [ClickOutsideDirective, RouterLink],
   templateUrl: './admin-header.component.html',
   styleUrls: ['./admin-header.component.css']
 })
