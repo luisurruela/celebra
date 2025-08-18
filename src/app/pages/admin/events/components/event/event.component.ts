@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ClickOutsideDirective } from '../../../../../directives/click-outside.directive';
-import { EventService } from '../../../../../services/event.service';
 import { Event } from '../../../../../types/event';
 
 @Component({
@@ -12,23 +11,22 @@ import { Event } from '../../../../../types/event';
 })
 export class EventComponent implements OnInit {
   @Input() event!: Event;
+  @Input() isMenuOpen = false;
 
-  isMenuOpen = false;
-
-  constructor(private eventService: EventService) { }
+  @Output() menuToggle = new EventEmitter<string>();
+  @Output() deleteEvent = new EventEmitter<string>();
+  
+  constructor() { }
 
   ngOnInit() {
   }
 
-  toggleMenu(event: MouseEvent) {
-    event.stopPropagation();
-    this.isMenuOpen = !this.isMenuOpen;
+  onMenuToggle(): void {
+    this.menuToggle.emit(this.event.id);
   }
 
-  deleteEvent() {
-    if (this.event.id) {
-      this.eventService.deleteEvent(this.event.id);
-    }
+  onDeleteEvent(): void {
+    this.deleteEvent.emit(this.event.id);
   }
 
 }

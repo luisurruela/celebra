@@ -15,11 +15,20 @@ import { Event } from '../../../types/event';
 export class EventsComponent implements OnInit {
 
   events$!: Observable<Event[]>;
+  activeMenuId: string | null = null;
   
   constructor(private eventService: EventService) { }
 
   ngOnInit() {
     this.events$ = this.eventService.getEvents();
+  }
+
+  toggleMenu(eventId: string) {
+    this.activeMenuId = this.activeMenuId === eventId ? null : eventId;
+  }
+
+  deleteEvent(eventId: string) {
+    this.eventService.deleteEvent(eventId);
   }
 
 }
