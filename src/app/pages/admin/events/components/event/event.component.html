@@ -14,9 +14,9 @@
      }
   </div>
 
-  <h3 class="uppercase font-thin text-lg md:text-2xl mb-1">{{ event.template === 'boda' ? event.nombresNovios : event.nombreFestejado }}</h3>
+  <h3 class="uppercase font-thin text-lg md:text-2xl mb-1 select-none">{{ event.template === 'boda' ? event.nombresNovios : event.nombreFestejado }}</h3>
 
-  <div class="flex my-3">
+  <div class="flex my-3 select-none">
     <div class="flex items-center justify-between gap-1 rounded-l-full bg-blue-600 px-2 py-1 text-white">
       <span class="font-black text-xs uppercase">{{ event.template }}</span>
     </div>

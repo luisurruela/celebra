@@ -11,11 +11,11 @@
       </h2>
       <div class="grid md:grid-cols-2 gap-6 w-full max-w-sm">
         <button (click)="onTemplateSelect('boda')"
-          class="bg-purple-100 hover:bg-purple-200 text-purple-600 font-bold py-6 px-4 rounded-lg shadow-md transition-colors duration-200 cursor-pointer">
+          class="bg-blue-100 hover:bg-blue-200 text-blue-600 font-bold py-6 px-4 rounded-lg shadow-md transition-colors duration-200 cursor-pointer">
           <span class="block text-xl font-playfair">Boda</span>
         </button>
         <button (click)="onTemplateSelect('cumpleanios')"
-          class="bg-purple-100 hover:bg-purple-200 text-purple-600 font-bold py-6 px-4 rounded-lg shadow-md transition-colors duration-200 cursor-pointer">
+          class="bg-blue-100 hover:bg-blue-200 text-blue-600 font-bold py-6 px-4 rounded-lg shadow-md transition-colors duration-200 cursor-pointer">
           <span class="block text-xl font-playfair">Cumpleaños</span>
         </button>
       </div>
@@ -30,7 +30,7 @@
         <h2 class="text-2xl font-montserrat font-semibold text-gray-700">
           Paso 2: Detalles del evento ({{ selectedTemplate === 'boda' ? 'Boda' : 'Cumpleaños' }})
         </h2>
-        <button type="button" (click)="onTemplateSelect(null)" class="text-purple-600 hover:underline">
+        <button type="button" (click)="onTemplateSelect(null)" class="text-blue-600 hover:underline">
           Cambiar plantilla
         </button>
       </div>
@@ -58,7 +58,7 @@
       </div>
 
       <button type="submit" [disabled]="loading"
-        class="mt-8 font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform {{ loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-purple-600 hover:bg-purple-700' }} text-white font-montserrat cursor-pointer disabled:opacity-50" [disabled]="newEventForm.invalid">
+        class="mt-8 font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform {{ loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700' }} text-white font-montserrat cursor-pointer disabled:opacity-50" [disabled]="newEventForm.invalid">
         {{ loading ? "Guardando..." : "Guardar Evento" }}
       </button>
     </form>

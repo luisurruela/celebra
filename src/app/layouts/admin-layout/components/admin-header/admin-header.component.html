@@ -12,7 +12,7 @@
     <!-- Contenedor del perfil de usuario y del menú. Se usa 'relative' para posicionar el menú. -->
     <div class="relative flex gap-2 md:gap-4 items-center cursor-pointer select-none" (click)="showAccountMenu = !showAccountMenu" (appClickOutside)="showAccountMenu = false">
       <p class="text-sm hidden md:block">Hola, Luis Urruela</p>
-      <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-purple-500">LU</div>
+      <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-blue-500">LU</div>
 
       <!-- El menú ahora está posicionado de manera 'absolute' con respecto a su padre 'relative'. -->
       @if (showAccountMenu) {
