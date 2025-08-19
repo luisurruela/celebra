@@ -6,6 +6,7 @@ export interface Event {
   lugarRecepcion: string;
   nombresNovios?: string;
   nombreFestejado?: string;
+  lugar?: string;
   status: string;
   template: string;
 }

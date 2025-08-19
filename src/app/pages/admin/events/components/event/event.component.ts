@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ClickOutsideDirective } from '../../../../../directives/click-outside.directive';
@@ -16,17 +17,21 @@ export class EventComponent implements OnInit {
   @Output() menuToggle = new EventEmitter<string>();
   @Output() deleteEvent = new EventEmitter<string>();
   
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  onMenuToggle(): void {
+  onMenuToggle() {
     this.menuToggle.emit(this.event.id);
   }
 
-  onDeleteEvent(): void {
+  onDeleteEvent() {
     this.deleteEvent.emit(this.event.id);
+  }
+
+  goToDetails() {
+    this.router.navigate(['/panel/', this.event.id]);
   }
 
 }

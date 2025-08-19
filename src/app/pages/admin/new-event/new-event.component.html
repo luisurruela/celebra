@@ -1,10 +1,17 @@
+<!-- Contenedor principal para la página del formulario de evento -->
 <div class="bg-gray-100 p-8 flex flex-col items-center">
   <div class="w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
-    <h1 class="text-4xl font-playfair font-bold text-center text-gray-800 mb-8">Crear Nuevo Evento</h1>
+    <h1 class="text-4xl font-playfair font-bold text-center text-gray-800 mb-8">{{ eventId ? 'Editar Evento' : 'Crear Nuevo Evento' }}</h1>
 
-    <!-- Sección de selección de plantilla centrada verticalmente -->
-    <!-- Se muestra si no se ha seleccionado ninguna plantilla -->
-    @if (!selectedTemplate) {
+    <!-- Sección de carga, se muestra mientras se obtienen los datos del evento -->
+    @if (isLoading) {
+    <div class="text-center py-12">
+      <h2 class="text-2xl font-montserrat font-semibold text-gray-700">Cargando...</h2>
+    </div>
+    }
+
+    <!-- Sección de selección de plantilla, se muestra solo si no hay una plantilla seleccionada y la carga ha terminado -->
+    @if (!isLoading && !selectedTemplate) {
     <div class="flex flex-col justify-center items-center h-full">
       <h2 class="text-2xl font-montserrat font-semibold text-gray-700 mb-4 text-center">
         Paso 1: Elige una plantilla
@@ -22,20 +29,23 @@
     </div>
     }
 
-    <!-- Formulario dinámico -->
-    <!-- Se muestra una vez que la plantilla ha sido seleccionada -->
-    @if (selectedTemplate) {
+    <!-- Formulario dinámico, se muestra solo si la carga ha terminado y se ha seleccionado una plantilla -->
+    @if (!isLoading && selectedTemplate) {
     <form [formGroup]="newEventForm" (ngSubmit)="onSubmit()">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-montserrat font-semibold text-gray-700">
-          Paso 2: Detalles del evento ({{ selectedTemplate === 'boda' ? 'Boda' : 'Cumpleaños' }})
+          {{ eventId ? 'Detalles del evento' : 'Paso 2: Detalles del evento'}} ({{ selectedTemplate === 'boda' ? 'Boda' : 'Cumpleaños' }})
         </h2>
-        <button type="button" (click)="onTemplateSelect(null)" class="text-blue-600 hover:underline">
-          Cambiar plantilla
-        </button>
+        <!-- Botón para cambiar de plantilla, que reinicia el formulario -->
+        @if (!eventId) {
+          <button type="button" (click)="selectedTemplate = null"
+            class="text-blue-600 hover:underline text-xs cursor-pointer">
+            Cambiar plantilla
+          </button>
+        }
       </div>
 
-      <!-- Controles del formulario generados dinámicamente -->
+      <!-- Controles del formulario generados dinámicamente según la plantilla seleccionada -->
       <div class="grid md:grid-cols-2 gap-6" formGroupName="details">
         @for (field of currentTemplateFields; track $index) {
         <div class="mb-4">
@@ -44,7 +54,7 @@
           </label>
           <input [formControlName]="field.name" [type]="field.type" [id]="field.name"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-600 disabled:opacity-50">
-          <!-- Mensaje de error si el campo es inválido y ha sido tocado -->
+          <!-- Mensaje de error si el campo es requerido y el usuario ha interactuado con él -->
           @if (newEventForm.get('details')?.get(field.name)?.invalid &&
           newEventForm.get('details')?.get(field.name)?.touched) {
           <div class="text-red-500 text-xs mt-1">Este campo es requerido.</div>
@@ -57,9 +67,10 @@
         }
       </div>
 
-      <button type="submit" [disabled]="loading"
-        class="mt-8 font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform {{ loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700' }} text-white font-montserrat cursor-pointer disabled:opacity-50" [disabled]="newEventForm.invalid">
-        {{ loading ? "Guardando..." : "Guardar Evento" }}
+      <!-- Botón de envío, se deshabilita durante el proceso de guardado y si el formulario no es válido -->
+      <button type="submit" [disabled]="loading || newEventForm.invalid"
+        class="mt-8 font-bold py-3 px-6 rounded-full shadow-lg transition-transform transform {{ loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700' }} text-white font-montserrat cursor-pointer disabled:opacity-50">
+        {{ loading ? "Guardando..." : eventId ? "Actualizar Evento" : "Guardar Evento" }}
       </button>
     </form>
     }

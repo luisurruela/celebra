@@ -1,9 +1,13 @@
-import { Router } from '@angular/router';
+import { user } from '@angular/fire/auth';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core'; // Se ha añadido ChangeDetectorRef
+
+import { firstValueFrom, of, take } from 'rxjs';
 
 import { EventService } from '../../../services/event.service';
+import { Event } from '../../../types/event';
 
 interface TemplateField {
   name: string;
@@ -20,10 +24,13 @@ interface TemplateField {
 })
 export class NewEventComponent implements OnInit {
   selectedTemplate: string | null = null;
-  loading = false;
+  loading = false; // Para el estado de envío del formulario
+  isLoading = true; // Para el estado de carga inicial
+  isEditing = false;
   
   newEventForm: FormGroup;
   currentTemplateFields: TemplateField[] = [];
+  eventId: string | null = null;
 
   templates = {
     boda: [
@@ -43,7 +50,9 @@ export class NewEventComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private eventService: EventService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef // Inyectamos ChangeDetectorRef
   ) {
     this.newEventForm = this.fb.group({
       template: [null, Validators.required],
@@ -51,17 +60,44 @@ export class NewEventComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.isLoading = true;
+    
+    // Obtener el ID del evento de la ruta
+    const params = await firstValueFrom(this.route.paramMap.pipe(take(1)));
+    this.eventId = params.get('id');
+    this.isEditing = !!this.eventId;
+
+    // Verificar si el usuario está autenticado
+    const user = await firstValueFrom(this.eventService.getUserAuth());
+    
+    // Si estamos editando y hay un usuario, cargar los datos
+    if (this.isEditing && user) {
+      const event = await this.eventService.getEventById(this.eventId!);
+      if (event) {
+        this.selectedTemplate = event.template;
+        this.buildForm(event);
+      } else {
+        // En caso de que el ID no exista, inicializar como un evento nuevo
+        this.selectedTemplate = null;
+        this.buildForm();
+      }
+    } else {
+      // Si es un evento nuevo, simplemente construir el formulario vacío
+      this.selectedTemplate = null;
+      this.buildForm();
+    }
+    
+    this.isLoading = false;
+    // Forzar la detección de cambios para que la vista se actualice
+    this.cd.detectChanges();
   }
 
-  onTemplateSelect(template: string | null) {
-    this.selectedTemplate = template;
-    this.newEventForm.controls['template'].setValue(template);
-
+  buildForm(event?: Event) {
     const detailsGroup = this.fb.group({});
     
-    if (template && (template in this.templates)) {
-      this.currentTemplateFields = this.templates[template as keyof typeof this.templates];
+    if (this.selectedTemplate && (this.selectedTemplate in this.templates)) {
+      this.currentTemplateFields = this.templates[this.selectedTemplate as keyof typeof this.templates];
       this.currentTemplateFields.forEach(field => {
         detailsGroup.addControl(field.name, new FormControl('', field.validators));
       });
@@ -70,6 +106,18 @@ export class NewEventComponent implements OnInit {
     }
     
     this.newEventForm.setControl('details', detailsGroup);
+
+    if (event) {
+      this.newEventForm.patchValue({
+        template: event.template,
+        details: event
+      });
+    }
+  }
+
+  onTemplateSelect(template: string) {
+    this.selectedTemplate = template;
+    this.buildForm();
   }
 
   async onSubmit() {
@@ -89,19 +137,22 @@ export class NewEventComponent implements OnInit {
       status: 'draft',
       ...details
     };
+    
+    // Limpia el 'id' del objeto eventData antes de enviarlo
+    const { id, ...eventDataToSend } = eventData;
 
-    this.eventService.addEvent(eventData)
-      .then(() => {
-        console.log('Datos enviados correctamente.');  
-        this.newEventForm.reset();
-        this.onTemplateSelect(this.selectedTemplate);
-      }).catch(error => {
-        console.error('Error al enviar los datos:', error);
-        
-      }).finally(() => {
-        this.loading = false;
-        this.newEventForm.enable();
-        this.router.navigate(['/panel']);
-      });
+    try {
+      if (this.isEditing && this.eventId) {
+        await this.eventService.updateEvent({ ...eventDataToSend, id: this.eventId } as Event);
+      } else {
+        await this.eventService.addEvent(eventDataToSend as Event);
+      }
+      this.router.navigate(['/panel']);
+    } catch (error) {
+      console.error('Error al enviar los datos:', error);
+    } finally {
+      this.loading = false;
+      this.newEventForm.enable();
+    }
   }
 }
