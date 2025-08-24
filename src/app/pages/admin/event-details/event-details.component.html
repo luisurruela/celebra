@@ -9,13 +9,8 @@
                 <div class="p-8 flex-1">
                     
                     <div class="flex justify-between">
-                        <button class="bg-gray-100 rounded-full flex items-center justify-center p-2 mb-5 cursor-pointer" (click)="goBack()">
-                            <span class="material-icons">arrow_back</span>
-                        </button>
-                        
-                        <button class="bg-gray-100 rounded-full flex items-center justify-center p-2 mb-5 cursor-pointer" [routerLink]="['/panel/editar-evento', eventDetails.id]" routerLinkActive="router-link-active" >
-                            <span class="material-icons">edit</span>
-                        </button>
+                        <app-icon-button (clickAction)="goBack()" />
+                        <app-icon-button (clickAction)="editEvent(eventDetails.id!)" icon="edit" />
                     </div>
 
                     <!-- Título del evento (Nombres de novios o nombre del festejado) -->
@@ -59,27 +54,7 @@
                         </div>
                     </div>
 
-                    <!-- Sección de invitados (futura mejora) -->
-                    <div class="mb-6">
-                        <h2 class="text-xl font-semibold text-gray-700 mb-4">Confirmaciones de Invitados</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                            <!-- Confirmados -->
-                            <div class="bg-green-100 text-green-800 p-4 rounded-lg shadow-sm">
-                                <p class="text-3xl font-bold">0</p>
-                                <p class="text-sm font-medium">Confirmados</p>
-                            </div>
-                            <!-- Faltan por confirmar -->
-                            <div class="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow-sm">
-                                <p class="text-3xl font-bold">0</p>
-                                <p class="text-sm font-medium">Pendientes</p>
-                            </div>
-                            <!-- Total de invitados -->
-                            <div class="bg-blue-100 text-blue-800 p-4 rounded-lg shadow-sm">
-                                <p class="text-3xl font-bold">0</p>
-                                <p class="text-sm font-medium">Total de Invitados</p>
-                            </div>
-                        </div>
-                    </div>
+                    <app-rsvp [confirmedGuests]="confirmedGuests$" [pendingGuests]="pendingGuests$" [totalGuests]="totalGuests$" [declinedGuests]="declinedGuests$"/>
 
                     <app-guests-table [guests$]="guests$" [eventId]="eventId" />
 

@@ -1,6 +1,8 @@
 <!-- Contenedor principal para la página del formulario de evento -->
 <div class="bg-gray-100 p-8 flex flex-col items-center">
   <div class="w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+    <app-icon-button (clickAction)="goBack()"></app-icon-button>
+    
     <h1 class="text-4xl font-playfair font-bold text-center text-gray-800 mb-8">{{ eventId ? 'Editar Evento' : 'Crear Nuevo Evento' }}</h1>
 
     <!-- Sección de carga, se muestra mientras se obtienen los datos del evento -->

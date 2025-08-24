@@ -1,0 +1,26 @@
+<!-- Sección de invitados (futura mejora) -->
+<div class="mb-6">
+  <h2 class="text-xl font-semibold text-gray-700 mb-4">Confirmaciones de Invitados</h2>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+    <!-- Confirmados -->
+    <div class="bg-green-100 text-green-800 p-4 rounded-lg shadow-sm">
+      <p class="text-3xl font-bold">{{ confirmedGuests | async }}</p>
+      <p class="text-sm font-medium">Confirmados</p>
+    </div>
+    <!-- Faltan por confirmar -->
+    <div class="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow-sm">
+      <p class="text-3xl font-bold">{{ pendingGuests | async }}</p>
+      <p class="text-sm font-medium">Pendientes</p>
+    </div>
+    <!-- Declinados -->
+    <div class="bg-orange-100 text-orange-800 p-4 rounded-lg shadow-sm">
+      <p class="text-3xl font-bold">{{ declinedGuests | async }}</p>
+      <p class="text-sm font-medium">Declinados</p>
+    </div>
+    <!-- Total de invitados -->
+    <div class="bg-blue-100 text-blue-800 p-4 rounded-lg shadow-sm">
+      <p class="text-3xl font-bold">{{ totalGuests | async }}</p>
+      <p class="text-sm font-medium">Total de Invitados</p>
+    </div>
+  </div>
+</div>

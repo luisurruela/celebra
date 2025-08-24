@@ -46,7 +46,19 @@
             </td>
             <td class="p-2">
               <div class="relative">
-                <span class="material-symbols-outlined select-none text-gray-500 cursor-pointer" (click)="toggleMenu(guest.id!, $event)">pending</span>
+                <span class="material-symbols-outlined select-none text-gray-500 cursor-pointer" (click)="toggleMenu(guest.id!, $event)">
+                  @if (guest.confirmed === guestStatus.Confirmed) {
+                    check
+                  }
+                  
+                  @else if (guest.confirmed === guestStatus.Declined) {
+                    cancel
+                  }
+                  
+                  @else if (!guest.confirmed || guest.confirmed === guestStatus.Pending) {
+                    pending
+                  }
+                </span>
 
                 @if (menuOpenFor === guest.id) {
                 <div class="absolute bottom-10 z-50 bg-white p-1 rounded-sm shadow-sm whitespace-nowrap text-start" (appClickOutside)="menuOpenFor = null">

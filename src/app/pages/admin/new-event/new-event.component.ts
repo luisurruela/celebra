@@ -1,11 +1,12 @@
-import { user } from '@angular/fire/auth';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core'; // Se ha añadido ChangeDetectorRef
 
-import { firstValueFrom, of, take } from 'rxjs';
+import { firstValueFrom, take } from 'rxjs';
 
+import { IconButtonComponent } from '../../../shared/icon-button/icon-button.component';
 import { EventService } from '../../../services/event.service';
 import { Event } from '../../../types/event';
 
@@ -18,7 +19,7 @@ interface TemplateField {
 @Component({
   selector: 'app-new-event',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, IconButtonComponent],
   templateUrl: './new-event.component.html',
   styleUrls: ['./new-event.component.css']
 })
@@ -52,7 +53,8 @@ export class NewEventComponent implements OnInit {
     private eventService: EventService,
     private router: Router,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef // Inyectamos ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private location: Location
   ) {
     this.newEventForm = this.fb.group({
       template: [null, Validators.required],
@@ -154,5 +156,9 @@ export class NewEventComponent implements OnInit {
       this.loading = false;
       this.newEventForm.enable();
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
