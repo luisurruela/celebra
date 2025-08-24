@@ -1,80 +1,32 @@
 <!-- Contenedor principal de la página -->
 <div class="bg-gray-100 min-h-screen p-8 font-sans antialiased">
-
-    
-    @if (event$ | async; as eventDetails) {
-        <!-- Contenedor de la tarjeta del evento -->
-        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-6xl">
-            <div class="md:flex">
-                <div class="p-8 flex-1">
-                    
-                    <div class="flex justify-between">
-                        <app-icon-button (clickAction)="goBack()" />
-                        <app-icon-button (clickAction)="editEvent(eventDetails.id!)" icon="edit" />
-                    </div>
-
-                    <!-- Título del evento (Nombres de novios o nombre del festejado) -->
-                    <h1 class="text-3xl font-bold text-gray-800 mb-2">
-                        @if (eventDetails.nombresNovios) {
-                        <span class="capitalize">{{ eventDetails.template }}</span> de {{ eventDetails.nombresNovios }}
-                        } @else {
-                        <span class="capitalize">{{ eventDetails.template }}</span> de {{ eventDetails.nombreFestejado }}
-                        }
-                    </h1>
-                    <!-- Fecha y estado -->
-                    <div class="text-sm text-gray-500 mb-6">
-                        <p><b>Fecha:</b> {{ eventDetails.fecha }}</p>
-                        <p><b>Estado:</b> {{ eventDetails.status }}</p>
-                    </div>
-
-                    <!-- Información del lugar (Ceremonia y Recepción) -->
-                    <div class="mb-6 border-b pb-4">
-                        <h2 class="text-xl font-semibold text-gray-700 mb-2">Detalles del lugar</h2>
-                        <div class="flex flex-col md:flex-row md:space-x-8 space-y-4 md:space-y-0">
-                            @if (eventDetails.template === 'boda') {
-                                <!-- Ceremonia -->
-                                <div class="flex-1">
-                                    <p class="font-medium text-gray-600">Lugar de la ceremonia:</p>
-                                    <p class="text-lg text-gray-800">{{ eventDetails.lugarCeremonia }}</p>
-                                </div>
-                                <!-- Recepción -->
-                                <div class="flex-1">
-                                    <p class="font-medium text-gray-600">Lugar de la recepción:</p>
-                                    <p class="text-lg text-gray-800">{{ eventDetails.lugarRecepcion }}</p>
-                                </div>
-                            }
-
-                            @if (eventDetails.template === 'cumpleanios') {
-                                <!-- Lugar del Festejo -->
-                                <div class="flex-1">
-                                    <p class="font-medium text-gray-600">Lugar del festejo:</p>
-                                    <p class="text-lg text-gray-800">{{ eventDetails.lugar }}</p>
-                                </div>
-                            }
-                        </div>
-                    </div>
-
-                    <app-rsvp [confirmedGuests]="confirmedGuests$" [pendingGuests]="pendingGuests$" [totalGuests]="totalGuests$" [declinedGuests]="declinedGuests$"/>
-
-                    <app-guests-table [guests$]="guests$" [eventId]="eventId" />
-
-                    <!-- Lista de invitados confirmados (futura mejora) -->
-                    <!-- <div class="mt-8">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Confirmados</h3>
-                        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-4"> -->
-                            <!-- Aquí se mostrarán los nombres de los invitados confirmados -->
-                            <!-- <li>(Nombre de invitado)</li>
-                            <li>(Nombre de invitado)</li>
-                            <li>(Nombre de invitado)</li> -->
-                     <!--    </ul>
-                    </div> -->
-            </div>
+  @if (event$ | async; as eventDetails) {
+  <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden md:max-w-6xl">
+    <div class="md:flex">
+      <div class="p-8 flex-1">
+        
+        <div class="flex justify-between">
+          <app-icon-button (clickAction)="goBack()" />
+          <app-icon-button (clickAction)="editEvent(eventDetails.id!)" icon="edit"/>
         </div>
+        
+        <app-rsvp
+          [confirmedGuests]="confirmedGuests$"
+          [pendingGuests]="pendingGuests$"
+          [totalGuests]="totalGuests$"
+          [declinedGuests]="declinedGuests$"
+        />
+
+        <app-event-information [event]="eventDetails" />
+        <app-guests-table [guests$]="guests$" [eventId]="eventId" />
+      </div>
     </div>
-    } @else {
-    <!-- Mensaje de carga o no encontrado -->
-    <div class="text-center text-gray-600 mt-20">
-        <p>Cargando detalles del evento...</p>
-    </div>
-    }
+  </div>
+  } 
+  
+  @else {
+  <div class="text-center text-gray-600 mt-20">
+    <p>Cargando detalles del evento...</p>
+  </div>
+  }
 </div>

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { from, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 
+import { EventInformationComponent } from './components/event-information/event-information.component';
 import { IconButtonComponent } from '../../../shared/icon-button/icon-button.component';
 import { GuestsTableComponent } from './components/guests-table/guests-table.component';
 import { RsvpComponent } from './components/rsvp/rsvp.component';
@@ -14,7 +15,7 @@ import { Event, Guest, GuestStatus } from '../../../types/event';
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, GuestsTableComponent, RsvpComponent, IconButtonComponent],
+  imports: [CommonModule, ReactiveFormsModule, GuestsTableComponent, RsvpComponent, IconButtonComponent, EventInformationComponent],
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.css']
 })

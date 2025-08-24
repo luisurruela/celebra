@@ -1,0 +1,21 @@
+<h1 class="text-3xl font-bold text-gray-800 mb-2">
+  @if (event.nombresNovios) {
+  <span class="capitalize">{{ event.template }}</span> de {{ event.nombresNovios }}
+  } 
+  
+  @else {
+  <span class="capitalize">{{ event.template === 'cumpleanios' && 'cumpleaños' }}</span> de {{ event.nombreFestejado }}
+  }
+</h1>
+<!-- Fecha y estado -->
+<div class="text-sm text-gray-500 mb-6">
+  <p><b>Fecha:</b> {{ getEventDate(event) | date:'d \'de\' MMMM \'de\' y' }}</p>
+  @if (event.template === 'boda') {
+    <p><b>Ceremonia:</b> {{ event.lugarCeremonia }}</p>
+    <p><b>Recepción:</b> {{ event.lugarRecepcion }}</p>
+  }
+  @else {
+    <p><b>Lugar:</b> {{ event.lugar }}</p>
+  }
+  <p><b>Estado:</b> {{ event.status }}</p>
+</div>
