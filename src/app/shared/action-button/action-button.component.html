@@ -1,0 +1,6 @@
+<span
+  [class]="`material-icons cursor-pointer p-2 text-${color}-600 rounded-full hover:bg-${color}-50 transition-all duration-300 select-none`"
+  [ngClass]="{'opacity-20 cursor-none': disabled, 'pointer-events-none': disabled}"
+  (click)="handleOnClick()">
+  {{ actionType }}
+</span>

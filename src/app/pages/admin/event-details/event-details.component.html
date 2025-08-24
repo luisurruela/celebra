@@ -81,16 +81,18 @@
                         </div>
                     </div>
 
+                    <app-guests-table [guests$]="guests$" [eventId]="eventId" />
+
                     <!-- Lista de invitados confirmados (futura mejora) -->
-                    <div class="mt-8">
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Nombres de invitados confirmados</h3>
-                        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-4">
+                    <!-- <div class="mt-8">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Confirmados</h3>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1 pl-4"> -->
                             <!-- Aquí se mostrarán los nombres de los invitados confirmados -->
+                            <!-- <li>(Nombre de invitado)</li>
                             <li>(Nombre de invitado)</li>
-                            <li>(Nombre de invitado)</li>
-                            <li>(Nombre de invitado)</li>
-                        </ul>
-                    </div>
+                            <li>(Nombre de invitado)</li> -->
+                     <!--    </ul>
+                    </div> -->
             </div>
         </div>
     </div>
