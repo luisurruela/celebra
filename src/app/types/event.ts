@@ -10,6 +10,7 @@ export interface Event {
   status: string;
   template: string;
   guests: Guest[];
+  slug: string;
 }
 
 export interface Guest {
@@ -19,6 +20,7 @@ export interface Guest {
   email?: string;
   phone?: string;
   confirmed: GuestStatus;
+  slug: string;
 }
 
 export enum GuestStatus {

@@ -3,6 +3,7 @@ import { Auth, user, User } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
 import { Observable, of, switchMap } from 'rxjs';
 
+import { generateUniqueSlug } from '../helpers/slug-generator';
 import { Guest } from '../types/event';
 
 @Injectable({
@@ -41,12 +42,37 @@ export class GuestService {
 }
 
   async create(eventId: string, guest: Guest) {
-    return addDoc(this.guestsColRef(this.userId!, eventId), guest);
+    if (!this.userId) throw new Error('User not authenticated');
+
+    const slug = await generateUniqueSlug(
+      this.afs,
+      this.userId,
+      `events/${eventId}/guests`,
+      guest.name
+    );
+
+    return addDoc(this.guestsColRef(this.userId, eventId), {
+      ...guest,
+      slug
+    });
   }
 
   async update(eventId: string, guestId: string, partial: Partial<Guest>) {
-    const ref = doc(this.afs, `users/${this.userId}/events/${eventId}/guests/${guestId}`);
-    return updateDoc(ref, partial as any);
+    if (!this.userId) throw new Error('User not authenticated');
+
+    const guestRef = doc(this.afs, `users/${this.userId}/events/${eventId}/guests/${guestId}`);
+
+    if (partial.name) {
+      const newSlug = await generateUniqueSlug(
+        this.afs,
+        this.userId,
+        `events/${eventId}/guests`,
+        partial.name
+      );
+      partial.slug = newSlug;
+    }
+
+    return updateDoc(guestRef, partial as any);
   }
 
   async remove(eventId: string, guestId: string) {

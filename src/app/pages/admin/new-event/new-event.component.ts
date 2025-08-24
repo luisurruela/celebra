@@ -25,8 +25,8 @@ interface TemplateField {
 })
 export class NewEventComponent implements OnInit {
   selectedTemplate: string | null = null;
-  loading = false; // Para el estado de envío del formulario
-  isLoading = true; // Para el estado de carga inicial
+  loading = false;
+  isLoading = true;
   isEditing = false;
   
   newEventForm: FormGroup;
@@ -64,49 +64,45 @@ export class NewEventComponent implements OnInit {
 
   async ngOnInit() {
     this.isLoading = true;
-    
-    // Obtener el ID del evento de la ruta
+  
     const params = await firstValueFrom(this.route.paramMap.pipe(take(1)));
     this.eventId = params.get('id');
     this.isEditing = !!this.eventId;
 
-    // Verificar si el usuario está autenticado
     const user = await firstValueFrom(this.eventService.getUserAuth());
     
-    // Si estamos editando y hay un usuario, cargar los datos
     if (this.isEditing && user) {
       const event = await this.eventService.getEventById(this.eventId!);
       if (event) {
         this.selectedTemplate = event.template;
         this.buildForm(event);
       } else {
-        // En caso de que el ID no exista, inicializar como un evento nuevo
         this.selectedTemplate = null;
         this.buildForm();
       }
     } else {
-      // Si es un evento nuevo, simplemente construir el formulario vacío
       this.selectedTemplate = null;
       this.buildForm();
     }
     
     this.isLoading = false;
-    // Forzar la detección de cambios para que la vista se actualice
     this.cd.detectChanges();
   }
 
   buildForm(event?: Event) {
     const detailsGroup = this.fb.group({});
-    
+
     if (this.selectedTemplate && (this.selectedTemplate in this.templates)) {
       this.currentTemplateFields = this.templates[this.selectedTemplate as keyof typeof this.templates];
+
       this.currentTemplateFields.forEach(field => {
-        detailsGroup.addControl(field.name, new FormControl('', field.validators));
+        const initialValue = event ? (event as any)[field.name] ?? '' : '';
+        detailsGroup.addControl(field.name, new FormControl(initialValue, field.validators));
       });
     } else {
       this.currentTemplateFields = [];
     }
-    
+
     this.newEventForm.setControl('details', detailsGroup);
 
     if (event) {
@@ -114,6 +110,8 @@ export class NewEventComponent implements OnInit {
         template: event.template,
         details: event
       });
+    } else if (this.selectedTemplate) {
+      this.newEventForm.patchValue({ template: this.selectedTemplate });
     }
   }
 
@@ -140,7 +138,6 @@ export class NewEventComponent implements OnInit {
       ...details
     };
     
-    // Limpia el 'id' del objeto eventData antes de enviarlo
     const { id, ...eventDataToSend } = eventData;
 
     try {

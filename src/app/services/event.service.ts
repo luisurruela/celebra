@@ -4,6 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
 
+import { generateUniqueSlug } from '../helpers/slug-generator';
 import { Event, Guest } from '../types/event';
 
 @Injectable({
@@ -32,35 +33,18 @@ export class EventService {
       })
     );
   }
-
+  
   async addEvent(newEvent: Event): Promise<void> {
     const currentUser: User | null = await firstValueFrom(this.getUserAuth());
-    if (!currentUser) {
-      throw new Error('User not authenticated.');
-    }
-    const eventsCollection = collection(
-      this.firestore,
-      `users/${currentUser.uid}/events`
-    );
-    await addDoc(eventsCollection, newEvent);
-  }
+    if (!currentUser) throw new Error('User not authenticated.');
 
-  /* async getEventById(eventId: string): Promise<Event | null> {
-    const currentUser: User | null = await firstValueFrom(this.getUserAuth());
-    if (!currentUser) {
-      throw new Error('User not authenticated.');
-    }
-    const eventDoc = doc(
-      this.firestore,
-      `users/${currentUser.uid}/events/${eventId}`
-    );
-    const docSnap = await getDoc(eventDoc);
-    if (docSnap.exists()) {
-      return { id: docSnap.id, ...(docSnap.data() as Event) };
-    } else {
-      return null;
-    }
-  } */
+    const eventTitle = newEvent.template === 'boda' ? newEvent.nombresNovios : newEvent.nombreFestejado;
+    const slug = await generateUniqueSlug(this.firestore, currentUser.uid, 'events', eventTitle || 'evento');
+
+    const eventWithSlug = { ...newEvent, slug };
+    const eventsCollection = collection(this.firestore, `users/${currentUser.uid}/events`);
+    await addDoc(eventsCollection, eventWithSlug);
+  }
 
   async getEventById(eventId: string): Promise<Event | null> {
     const currentUser: User | null = await firstValueFrom(this.getUserAuth());
