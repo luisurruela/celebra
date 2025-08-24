@@ -1,9 +1,9 @@
 <header>
   <nav class="h-18 bg-blue-600 text-white flex items-center px-2 md:px-5 justify-between">
 
-    <div class="flex items-center gap-2 md:gap-5 select-none cursor-pointer" [routerLink]="['/panel']" routerLinkActive="router-link-active" >
+    <div class="flex items-center gap-2 md:gap-5 select-none cursor-pointer">
       <span class="material-icons cursor-pointer" (click)="handleToggleSidebar()">menu</span>
-      <div class="text-lg font-semibold flex items-center gap-2">
+      <div class="text-lg font-semibold flex items-center gap-2" [routerLink]="['/panel']">
         <span class="font-bold hidden md:block">Celebra | </span> 
         <span class="uppercase text-base font-light md:text-xs md:mt-1">Panel de Control</span>
       </div>

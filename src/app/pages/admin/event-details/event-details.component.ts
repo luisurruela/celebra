@@ -2,7 +2,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { from, map, Observable, of, switchMap } from 'rxjs';
+import { from, map, Observable, of, shareReplay, switchMap } from 'rxjs';
 
 import { IconButtonComponent } from '../../../shared/icon-button/icon-button.component';
 import { GuestsTableComponent } from './components/guests-table/guests-table.component';
@@ -38,38 +38,39 @@ export class EventDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.event$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        this.eventId = params.get('id');
-        if (this.eventId) {
-          this.guests$ = this.guestService.list(this.eventId);
+    // Obtener eventId del route params
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.eventId = params.get('id');
 
-          this.confirmedGuests$ = this.guests$.pipe(
-            map(guests => guests.filter(g => g.confirmed === this.guestStatus.Confirmed).length)
-          );
+      if (this.eventId) {
+        // Observable de invitados
+        this.guests$ = this.guestService.list(this.eventId).pipe(
+          shareReplay(1)
+        );
 
-          this.pendingGuests$ = this.guests$.pipe(
-            map(guests => guests.filter(g => g.confirmed === this.guestStatus.Pending).length)
-          );
-          
-          this.declinedGuests$ = this.guests$.pipe(
-            map(guests => guests.filter(g => g.confirmed === this.guestStatus.Declined).length)
-          );
+        // Contadores derivados
+        this.confirmedGuests$ = this.guests$.pipe(
+          map(guests => guests.filter(g => g.confirmed === this.guestStatus.Confirmed).length)
+        );
 
-          this.totalGuests$ = this.guests$.pipe(
-            map(guests => 
-              guests
-                .filter(g => g.confirmed === this.guestStatus.Confirmed)
-                .reduce((acc, g) => acc + (g.allowed ?? 1), 0)
-            )
-          );
+        this.pendingGuests$ = this.guests$.pipe(
+          map(guests => guests.filter(g => g.confirmed === this.guestStatus.Pending).length)
+        );
 
-          return from(this.eventService.getEventById(this.eventId));
-        } else {
-          return of(undefined);
-        }
-      })
-    );
+        this.declinedGuests$ = this.guests$.pipe(
+          map(guests => guests.filter(g => g.confirmed === this.guestStatus.Declined).length)
+        );
+
+        this.totalGuests$ = this.guests$.pipe(
+          map(guests => guests
+            .filter(g => g.confirmed === this.guestStatus.Confirmed)
+            .reduce((acc, g) => acc + (g.allowed ?? 1), 0))
+        );
+
+        // Observable de evento
+        this.event$ = from(this.eventService.getEventById(this.eventId));
+      }
+    });
   }
 
   goBack() {

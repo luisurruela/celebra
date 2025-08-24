@@ -1,7 +1,7 @@
 import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, orderBy, query, updateDoc } from '@angular/fire/firestore';
 import { Auth, user, User } from '@angular/fire/auth';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 import { Guest } from '../types/event';
 
@@ -25,9 +25,20 @@ export class GuestService {
   }
 
   list(eventId: string): Observable<Guest[]> {
-    const q = query(this.guestsColRef(this.userId!, eventId), orderBy('name', 'asc'));
+  if (this.userId) {
+    const q = query(this.guestsColRef(this.userId, eventId), orderBy('name', 'asc'));
     return collectionData(q, { idField: 'id' }) as Observable<Guest[]>;
   }
+
+  return this.getUserAuth().pipe(
+    switchMap(user => {
+      this.userId = user?.uid ?? null;
+      if (!this.userId) return of([]);
+      const q = query(this.guestsColRef(this.userId, eventId), orderBy('name', 'asc'));
+      return collectionData(q, { idField: 'id' }) as Observable<Guest[]>;
+    })
+  );
+}
 
   async create(eventId: string, guest: Guest) {
     return addDoc(this.guestsColRef(this.userId!, eventId), guest);
