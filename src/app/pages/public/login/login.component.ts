@@ -2,7 +2,8 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,6 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  // Estado del formulario
   email = '';
   password = '';
   errorMessage = '';
@@ -22,9 +22,6 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  /**
-   * Maneja el inicio de sesión del usuario.
-   */
   async onLogin() {
     this.errorMessage = '';
     try {
@@ -35,9 +32,6 @@ export class LoginComponent {
     }
   }
 
-  /**
-   * Maneja el registro de un nuevo usuario.
-   */
   async onRegister() {
     this.errorMessage = '';
     try {
@@ -48,23 +42,15 @@ export class LoginComponent {
     }
   }
 
-  /**
-   * Inicia sesión con Google. La lógica está en el servicio.
-   */
   async loginWithGoogle() {
     this.errorMessage = '';
     try {
       await this.authService.loginWithGoogle();
-      // La redirección se maneja en el servicio.
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  /**
-   * Muestra un mensaje de error basado en el código del error de Firebase.
-   * @param error El objeto de error de Firebase.
-   */
   handleError(error: any) {
     switch (error.code) {
       case 'auth/invalid-email':
@@ -89,9 +75,6 @@ export class LoginComponent {
     console.error("Firebase Auth Error:", error);
   }
 
-  /**
-   * Alterna entre el formulario de inicio de sesión y registro.
-   */
   toggleForm() {
     this.isRegister = !this.isRegister;
     this.email = '';

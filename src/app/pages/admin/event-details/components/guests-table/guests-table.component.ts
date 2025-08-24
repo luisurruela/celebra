@@ -7,7 +7,7 @@ import { ActionButtonComponent } from '../../../../../shared/action-button/actio
 import { ClickOutsideDirective } from "../../../../../directives/click-outside.directive";
 import { ButtonComponent } from '../../../../../shared/button/button.component';
 import { GuestService } from '../../../../../services/guest.service';
-import { Guest, GuestStatus } from '../../../../../types/event';
+import { Event as EventElement, Guest, GuestStatus } from '../../../../../types/event';
 
 @Component({
   selector: 'app-guests-table',
@@ -17,7 +17,7 @@ import { Guest, GuestStatus } from '../../../../../types/event';
 })
 export class GuestsTableComponent implements OnInit {
   @Input() guests$!: Observable<Guest[]>;
-  @Input() eventId: string | null = null;
+  @Input() event!: EventElement;
 
   isEditing = false;
   guestStatus = GuestStatus;
@@ -37,10 +37,10 @@ export class GuestsTableComponent implements OnInit {
   }
 
   addGuest() {
-    if (!this.eventId) {
+    if (!this.event.id) {
       return;
     }
-    this.guestService.create(this.eventId, this.guestForm.value);
+    this.guestService.create(this.event.id, this.guestForm.value);
     this.guestForm.reset({ allowed: 1 });
   }
 
@@ -50,20 +50,19 @@ export class GuestsTableComponent implements OnInit {
     this.guestForm.patchValue(guest);
   }
 
-
   deleteGuest(guestId: string) {
-    if (!this.eventId) {
+    if (!this.event.id) {
       return;
     }
     
-    this.guestService.remove(this.eventId, guestId);
+    this.guestService.remove(this.event.id, guestId);
   }
 
   updateGuest() {
-    if (!this.eventId) {
+    if (!this.event.id) {
       return;
     }
-    this.guestService.update(this.eventId, this.currentGuest?.id!, this.guestForm.value);
+    this.guestService.update(this.event.id, this.currentGuest?.id!, this.guestForm.value);
     this.isEditing = false;
     this.guestForm.reset({ allowed: 1 });
   }
@@ -76,21 +75,21 @@ export class GuestsTableComponent implements OnInit {
     }
   }
 
-  shareGuest(guestId: string) {
-    if (!this.eventId) {
+  shareGuest(guest: Guest) {
+    if (!this.event.id) {
       return;
     }
-    console.log(`Sharing guest ${guestId} for event ${this.eventId}`);
+    console.log(`Share link: https://celebra.app/eventos/${this.event.slug}/${guest.slug}`);
   }
 
   async setStatus(guestId: string, status: GuestStatus) {
     this.menuOpenFor = null;
     
-    if (!this.eventId) {
+    if (!this.event.id) {
       return;
     }
-    const save = await this.guestService.update(this.eventId, guestId, { confirmed: status });
-    console.log('Status updated', save);
+    
+    await this.guestService.update(this.event.id, guestId, { confirmed: status });
   }
 
   toggleMenu(guestId: string, event: Event) {

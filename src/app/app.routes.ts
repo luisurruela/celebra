@@ -2,11 +2,11 @@ import { Routes } from '@angular/router';
 
 import { EventDetailsComponent } from './pages/admin/event-details/event-details.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { NotFoundComponent } from './pages/notFound/notFound/notFound.component';
 import { NewEventComponent } from './pages/admin/new-event/new-event.component';
+import { NotFoundComponent } from './pages/public/notFound/notFound.component';
 import { EventsComponent } from './pages/admin/events/events.component';
-import { HomeComponent } from './pages/home/home/home.component';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './pages/public/login/login.component';
+import { HomeComponent } from './pages/public/home/home.component';
 import { PublicGuard } from './auth/public.guard';
 import { AuthGuard } from './auth/auth.guard';
 
