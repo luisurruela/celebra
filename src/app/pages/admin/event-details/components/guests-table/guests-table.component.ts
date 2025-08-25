@@ -79,7 +79,7 @@ export class GuestsTableComponent implements OnInit {
     if (!this.event.id) {
       return;
     }
-    console.log(`Share link: https://celebra.app/eventos/${this.event.slug}/${guest.slug}`);
+    console.log(`Share link: http://localhost:4200/eventos/${this.event.slug}/${guest.slug}`);
   }
 
   async setStatus(guestId: string, status: GuestStatus) {

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { EventDetailsComponent } from './pages/admin/event-details/event-details.component';
+import { EventsLayoutComponent } from './layouts/events-layout/events-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NewEventComponent } from './pages/admin/new-event/new-event.component';
 import { NotFoundComponent } from './pages/public/notFound/notFound.component';
@@ -19,9 +20,16 @@ export const routes: Routes = [
         canActivate: [PublicGuard],
     },
     {
+        path: 'eventos/:eventSlug/:guestSlug',
+        component: EventsLayoutComponent,
+        children: [
+            
+        ]
+    },
+    {
         path: 'panel',
         component: AdminLayoutComponent,
-        canActivate: [AuthGuard], // Usa AuthGuard para las rutas protegidas
+        canActivate: [AuthGuard],
         children: [
             { path: '', component: EventsComponent, title: 'Celebra - Panel de Administración' },
             { path: 'nuevo-evento', component: NewEventComponent, title: 'Celebra - Nuevo Evento' },

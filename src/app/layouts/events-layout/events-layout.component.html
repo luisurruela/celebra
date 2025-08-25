@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Boda • Nombre & Nombre</title>
+  <!-- Tailwind Play CDN (para prototipar) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            blush: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+            },
+            sage: {
+              50: '#f4f7f5',
+              100: '#e8efe9',
+              200: '#cfe0d5',
+              300: '#a9c6b4',
+              400: '#7aa58a',
+              500: '#5b8a70',
+            }
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['Inter', 'system-ui', 'sans-serif']
+          },
+          boxShadow: {
+            soft: '0 10px 30px -12px rgb(0 0 0 / 0.15)'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <meta name="description"
+    content="Acompáñanos a celebrar nuestra boda. Detalles del evento, ubicación, itinerario y confirmación de asistencia." />
+</head>
+
+<body class="bg-sage-50 text-gray-800 font-body">
+  <!-- Hero / Encabezado -->
+  <header class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blush-100 via-white to-sage-100"></div>
+    <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blush-100 blur-3xl opacity-60"></div>
+    <div class="absolute -bottom-24 -left-24 w-[28rem] h-[28rem] rounded-full bg-sage-100 blur-3xl opacity-70"></div>
+
+    <nav class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-soft">
+          <!-- Flor SVG minimal -->
+          <svg viewBox="0 0 24 24" class="w-6 h-6 text-blush-500" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path
+              d="M12 3c1.5 2 1.5 4 0 6-1.5-2-1.5-4 0-6Zm0 0c-2 1.5-4 1.5-6 0 2-1.5 4-1.5 6 0Zm0 0c2-1.5 4-1.5 6 0-2 1.5-4 1.5-6 0Zm0 18c-1.5-2-1.5-4 0-6 1.5 2 1.5 4 0 6Zm0 0c2-1.5 4-1.5 6 0-2 1.5-4 1.5-6 0Zm0 0c-2 1.5-4 1.5-6 0 2-1.5 4-1.5 6 0Z" />
+          </svg>
+        </span>
+        <span class="font-semibold tracking-wide text-gray-700">Nuestra Boda</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#historia" class="hover:text-blush-500 transition">Historia</a>
+        <a href="#itinerario" class="hover:text-blush-500 transition">Itinerario</a>
+        <a href="#ubicacion" class="hover:text-blush-500 transition">Ubicación</a>
+        <a href="#galeria" class="hover:text-blush-500 transition">Galería</a>
+        <a href="#rsvp"
+          class="inline-flex items-center gap-2 bg-blush-500 text-white py-2 px-4 rounded-full shadow-soft hover:-translate-y-0.5 transform transition">Confirmar
+          asistencia</a>
+      </div>
+    </nav>
+
+    <section class="max-w-7xl mx-auto px-6 pt-8 pb-16 md:pt-16 md:pb-24 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <p class="uppercase tracking-[0.3em] text-blush-500 text-xs mb-4">¡Nos casamos!</p>
+        <h1 class="font-display text-5xl md:text-7xl leading-tight">
+          <span class="block">Nombre &amp;</span>
+          <span class="block">Nombre</span>
+        </h1>
+        <p class="mt-6 text-lg text-gray-600 max-w-prose">Acompáñanos a celebrar nuestra unión en una ceremonia íntima
+          llena de amor. Aquí encontrarás toda la información que necesitas para ese día tan especial.</p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="#rsvp"
+            class="inline-flex items-center gap-2 bg-blush-500 text-white py-3 px-6 rounded-full shadow-soft hover:-translate-y-0.5 transform transition">Confirmar
+            asistencia</a>
+          <a href="#itinerario"
+            class="inline-flex items-center gap-2 bg-white text-gray-700 py-3 px-6 rounded-full shadow-soft hover:-translate-y-0.5 transform transition">Ver
+            itinerario</a>
+        </div>
+
+        <!-- Contador regresivo -->
+        <div class="mt-10 grid grid-cols-4 gap-3 max-w-md">
+          <div class="bg-white rounded-2xl p-4 text-center shadow-soft">
+            <div id="d" class="font-display text-3xl">--</div>
+            <div class="text-xs tracking-wider text-gray-500 uppercase">Días</div>
+          </div>
+          <div class="bg-white rounded-2xl p-4 text-center shadow-soft">
+            <div id="h" class="font-display text-3xl">--</div>
+            <div class="text-xs tracking-wider text-gray-500 uppercase">Horas</div>
+          </div>
+          <div class="bg-white rounded-2xl p-4 text-center shadow-soft">
+            <div id="m" class="font-display text-3xl">--</div>
+            <div class="text-xs tracking-wider text-gray-500 uppercase">Min</div>
+          </div>
+          <div class="bg-white rounded-2xl p-4 text-center shadow-soft">
+            <div id="s" class="font-display text-3xl">--</div>
+            <div class="text-xs tracking-wider text-gray-500 uppercase">Seg</div>
+          </div>
+        </div>
+        <p class="mt-3 text-sm text-gray-500">Sábado • 10 de septiembre de 2025 • 17:00 h</p>
+      </div>
+
+      <div class="relative">
+        <div class="aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-soft bg-white">
+          <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1500&auto=format&fit=crop"
+            alt="Pareja" class="w-full h-full object-cover" />
+        </div>
+        <div class="hidden md:block absolute -bottom-8 -right-6 bg-white rounded-2xl p-5 shadow-soft">
+          <p class="text-gray-600 text-sm">Lugar: <span class="font-medium">Hacienda Los Pinos</span></p>
+          <p class="text-gray-600 text-sm">Ciudad: <span class="font-medium">San Miguel</span></p>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <!-- Nuestra historia -->
+  <section id="historia" class="max-w-7xl mx-auto px-6 py-20">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="order-2 md:order-1">
+        <h2 class="font-display text-4xl md:text-5xl mb-4">Nuestra historia</h2>
+        <p class="text-gray-600 leading-relaxed">Nos conocimos en 2018 y desde entonces hemos compartido aventuras,
+          sueños y un montón de café. Este nuevo capítulo nos llena de alegría y queremos celebrarlo contigo.</p>
+        <div class="mt-6 grid grid-cols-3 gap-4">
+          <div class="bg-white rounded-xl p-4 shadow-soft text-center">
+            <div class="font-display text-2xl">2018</div>
+            <div class="text-xs text-gray-500 uppercase tracking-wide">Nos conocimos</div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-soft text-center">
+            <div class="font-display text-2xl">2022</div>
+            <div class="text-xs text-gray-500 uppercase tracking-wide">Dijimos sí</div>
+          </div>
+          <div class="bg-white rounded-xl p-4 shadow-soft text-center">
+            <div class="font-display text-2xl">2025</div>
+            <div class="text-xs text-gray-500 uppercase tracking-wide">Nos casamos</div>
+          </div>
+        </div>
+      </div>
+      <div class="order-1 md:order-2">
+        <div class="aspect-video rounded-3xl overflow-hidden shadow-soft">
+          <img src="https://images.unsplash.com/photo-1504829857797-ddff29c27927?q=80&w=1500&auto=format&fit=crop"
+            alt="Historia" class="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Itinerario -->
+  <section id="itinerario" class="relative py-20">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-white to-sage-100"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="font-display text-4xl md:text-5xl text-center mb-12">Itinerario</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl p-6 shadow-soft">
+          <div class="text-sm uppercase tracking-widest text-gray-500">Ceremonia</div>
+          <div class="mt-2 font-display text-2xl">17:00 h</div>
+          <p class="mt-3 text-gray-600">Parroquia San Juan</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-soft">
+          <div class="text-sm uppercase tracking-widest text-gray-500">Recepción</div>
+          <div class="mt-2 font-display text-2xl">19:00 h</div>
+          <p class="mt-3 text-gray-600">Hacienda Los Pinos</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-soft">
+          <div class="text-sm uppercase tracking-widest text-gray-500">Baile</div>
+          <div class="mt-2 font-display text-2xl">21:00 h</div>
+          <p class="mt-3 text-gray-600">Salón Magnolia</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ubicación / Mapa -->
+  <section id="ubicacion" class="max-w-7xl mx-auto px-6 py-20">
+    <div class="grid md:grid-cols-2 gap-10 items-stretch">
+      <div class="bg-white rounded-3xl p-8 shadow-soft">
+        <h3 class="font-display text-3xl mb-4">Cómo llegar</h3>
+        <p class="text-gray-600">Te esperamos en la Hacienda Los Pinos. Hay estacionamiento disponible y el código de
+          vestimenta es formal.</p>
+        <div class="mt-6 grid gap-3 text-sm">
+          <div class="flex items-center gap-3">
+            <span
+              class="inline-flex w-9 h-9 items-center justify-center rounded-full bg-blush-100 text-blush-500">📍</span>
+            <span>Av. Primavera 123, San Miguel</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span
+              class="inline-flex w-9 h-9 items-center justify-center rounded-full bg-blush-100 text-blush-500">🕒</span>
+            <span>Recepción 19:00 h</span>
+          </div>
+        </div>
+        <a href="#rsvp"
+          class="mt-8 inline-flex items-center gap-2 bg-sage-500 text-white py-3 px-6 rounded-full shadow-soft hover:-translate-y-0.5 transform transition">Confirmar
+          asistencia</a>
+      </div>
+      <div class="rounded-3xl overflow-hidden shadow-soft min-h-[300px] bg-white">
+        <!-- Reemplaza el iframe con tu mapa real -->
+        <iframe title="Mapa" class="w-full h-full min-h-[300px]"
+          src="https://maps.google.com/maps?q=San%20Miguel&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galería -->
+  <section id="galeria" class="relative py-20">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-white to-sage-50"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="font-display text-4xl md:text-5xl text-center mb-10">Galería</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <img class="aspect-[4/5] object-cover rounded-2xl shadow-soft"
+          src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop"
+          alt="Galería 1" />
+        <img class="aspect-[4/5] object-cover rounded-2xl shadow-soft"
+          src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop"
+          alt="Galería 2" />
+        <img class="aspect-[4/5] object-cover rounded-2xl shadow-soft"
+          src="https://images.unsplash.com/photo-1490281064954-c18f4f8c4b22?q=80&w=1200&auto=format&fit=crop"
+          alt="Galería 3" />
+        <img class="aspect-[4/5] object-cover rounded-2xl shadow-soft"
+          src="https://images.unsplash.com/photo-1547517023-7ca0c162f816?q=80&w=1200&auto=format&fit=crop"
+          alt="Galería 4" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Mesa de regalos / Nota -->
+  <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+    <div class="bg-white rounded-3xl p-10 shadow-soft">
+      <h3 class="font-display text-3xl mb-3">Regalos</h3>
+      <p class="text-gray-600">Tu presencia es nuestro mejor regalo; si deseas hacernos un detalle, te dejamos algunas
+        ideas y opciones.</p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        <a href="#"
+          class="inline-flex bg-white border border-gray-200 text-gray-700 py-2.5 px-4 rounded-full shadow-soft hover:-translate-y-0.5 transition">Mesa
+          Liverpool</a>
+        <a href="#"
+          class="inline-flex bg-white border border-gray-200 text-gray-700 py-2.5 px-4 rounded-full shadow-soft hover:-translate-y-0.5 transition">Lista
+          Amazon</a>
+        <a href="#"
+          class="inline-flex bg-white border border-gray-200 text-gray-700 py-2.5 px-4 rounded-full shadow-soft hover:-translate-y-0.5 transition">Sobre
+          el día del evento</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp" class="relative py-20">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-sage-50 to-white"></div>
+    <div class="max-w-xl mx-auto px-6">
+      <div class="bg-white rounded-3xl p-8 shadow-soft">
+        <h2 class="font-display text-4xl text-center mb-2">¿Nos acompañas?</h2>
+        <p class="text-center text-gray-600 mb-6">Confirma tu asistencia y ayuda a que todo sea perfecto.</p>
+        <form class="grid gap-4">
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">Nombre completo</label>
+            <input type="text" class="w-full rounded-xl border-gray-200 focus:ring-blush-400 focus:border-blush-400"
+              placeholder="Escribe tu nombre" required />
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">Asistentes</label>
+              <input type="number" min="1"
+                class="w-full rounded-xl border-gray-200 focus:ring-blush-400 focus:border-blush-400" value="1" />
+            </div>
+            <div>
+              <label class="block text-sm text-gray-600 mb-1">Correo</label>
+              <input type="email" class="w-full rounded-xl border-gray-200 focus:ring-blush-400 focus:border-blush-400"
+                placeholder="tucorreo@ejemplo.com" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <button type="button" class="w-full py-3 rounded-xl border border-gray-200 hover:bg-gray-50">No podré
+              asistir</button>
+            <button type="submit"
+              class="w-full py-3 rounded-xl bg-blush-500 text-white shadow-soft hover:-translate-y-0.5 transform transition">Confirmar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-10 text-center text-sm text-gray-500">
+    Con amor, Nombre &amp; Nombre — 2025
+  </footer>
+
+  <!-- Script: contador simple (configura la fecha real) -->
+  <script>
+    // Cambia esta fecha a la de tu evento
+    const targetDate = new Date('2025-09-10T17:00:00');
+    const $ = (id) => document.getElementById(id);
+
+    function pad(n) { return n.toString().padStart(2, '0'); }
+
+    function tick() {
+      const now = new Date();
+      const diff = targetDate - now;
+      if (diff <= 0) {
+        ['d', 'h', 'm', 's'].forEach(id => $(id).textContent = '00');
+        return clearInterval(timer);
+      }
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      $('d').textContent = d;
+      $('h').textContent = pad(h);
+      $('m').textContent = pad(m);
+      $('s').textContent = pad(s);
+    }
+
+    const timer = setInterval(tick, 1000);
+    tick();
+  </script>
+</body>
+
+</html>
