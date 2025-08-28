@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { EventDetailsComponent } from './pages/admin/event-details/event-details.component';
+import { LandingPageComponent } from './pages/public/landing-page/landing-page.component';
 import { EventsLayoutComponent } from './layouts/events-layout/events-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NewEventComponent } from './pages/admin/new-event/new-event.component';
@@ -23,7 +24,7 @@ export const routes: Routes = [
         path: 'eventos/:eventSlug/:guestSlug',
         component: EventsLayoutComponent,
         children: [
-            
+            { path: '', component: LandingPageComponent}
         ]
     },
     {
